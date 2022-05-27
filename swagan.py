@@ -438,3 +438,22 @@ class Discriminator(nn.Module):
 
         return out
 
+
+
+if __name__ == '__main__':
+    import torch
+    import yaml
+    from torch.profiler import ProfilerActivity, profile, record_function
+
+    x = torch.rand((8, 3, 256, 256))
+    model = Generator(size=256, style_dim=512, n_mlp=8)
+    dis = Discriminator(size=256)
+    print(model)
+    print(dis)
+    out = dis(x)
+    print(out.size())
+    # with profile(activities=[ProfilerActivity.CPU]) as prof:
+    #     with record_function("model_inference"):
+    #         out = model(x)
+    # print(out['prediction'].size())
+    # print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
